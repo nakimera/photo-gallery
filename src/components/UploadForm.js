@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import Preview from "./Preview";
 
 function UploadForm({ inputs, isVisible, onChange, onSubmit }) {
   const isDisabled = useMemo(() => {
@@ -10,6 +11,7 @@ function UploadForm({ inputs, isVisible, onChange, onSubmit }) {
       <>
         <p className="display-6 text-center mb-3">Upload Stock Image</p>
         <div className="mb-5 d-flex align-items-center justify-content-center">
+            <Preview {...inputs} />
           <form
             className="mb-2"
             style={{ textAlign: "left" }}
