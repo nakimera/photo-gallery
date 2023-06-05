@@ -38,13 +38,14 @@ function App() {
         </button>
         <div className="clearfix mt-5"></div>
         <UploadForm
+          inputs={inputs}
           isVisible={isCollapsed}
           onChange={handleOnChange}
           onSubmit={handleOnSubmit}
         />
+        <h1 className="mb-2 mt-4">Gallery</h1>
         <p>You have {count} image{count === 1 ? '' : 's'}</p>
-        <h1 className="mb-4 mt-4">Gallery</h1>
-        <div className="row">
+        <div className="row mt-5">
           {items.map((photo, index) => (
             <Card src={photo} key={index} />
           ))}
