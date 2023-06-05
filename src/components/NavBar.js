@@ -4,13 +4,13 @@ import Dropdown from "./Dropdown";
 
 function NavBar() {
   return (
-    <nav class="navbar navbar-expand-lg bg-light mb-5">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">
+    <nav className="navbar navbar-expand-lg bg-light mb-5">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="/">
           ⚡ Blacksquad
         </a>
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -18,9 +18,9 @@ function NavBar() {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <Navigation />
           <SearchForm />
           <Dropdown />

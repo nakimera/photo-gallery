@@ -1,3 +1,4 @@
+import { useState } from "react";
 import NavBar from "../src/components/NavBar";
 import Card from "../src/components/Card";
 
@@ -11,14 +12,15 @@ const photos = [
 ];
 
 function App() {
+  const [items, setItems] = useState(photos);
   return (
     <>
       <NavBar />
-      <div class="container text-center mb-5">
+      <div className="container text-center mb-5">
         <h1 className="mb-4">Gallery</h1>
         <div className="row">
-          {photos.map((photo) => (
-            <Card src={photo} />
+          {items.map((photo) => (
+            <Card src={photo} key={photo} />
           ))}
         </div>
       </div>
