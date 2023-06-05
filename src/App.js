@@ -1,26 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "../src/components/NavBar";
 import Card from "../src/components/Card";
-
-const photos = [
-  "https://picsum.photos/id/1001/200/200",
-  "https://picsum.photos/id/1002/200/200",
-  "https://picsum.photos/id/1003/200/200",
-  "https://picsum.photos/id/1004/200/200",
-  "https://picsum.photos/id/1005/200/200",
-  "https://picsum.photos/id/1006/200/200",
-];
+import UploadForm from "../src/components/UploadForm";
 
 function App() {
-  const [items, setItems] = useState(photos);
+  const [count, setCount] = useState(null);
+  const [inputs, setInputs] = useState({ title: null, file: null, path: null });
+  const [items, setItems] = useState([]);
+  const [isCollapsed, collapse] = useState(false);
+  const toggle = () => collapse(!isCollapsed);
+  const handleOnChange = (e) => {
+    if (e.target.name === "file") {
+      setInputs({
+        ...inputs,
+        file: e.target.files[0],
+        path: URL.createObjectURL(e.target.files[0]),
+      });
+    } else {
+      setInputs({ ...inputs, title: e.target.value });
+    }
+  };
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    setItems([inputs.path, ...items]);
+  };
+
+  useEffect(() => {
+    setCount(items.length)
+  }, [items])
+
   return (
     <>
       <NavBar />
       <div className="container text-center mb-5">
-        <h1 className="mb-4">Gallery</h1>
+        <button className="btn btn-success float-end" onClick={toggle}>
+          {isCollapsed ? "Close" : "+ Add"}
+        </button>
+        <div className="clearfix mt-5"></div>
+        <UploadForm
+          isVisible={isCollapsed}
+          onChange={handleOnChange}
+          onSubmit={handleOnSubmit}
+        />
+        <p>You have {count} image{count === 1 ? '' : 's'}</p>
+        <h1 className="mb-4 mt-4">Gallery</h1>
         <div className="row">
-          {items.map((photo) => (
-            <Card src={photo} key={photo} />
+          {items.map((photo, index) => (
+            <Card src={photo} key={index} />
           ))}
         </div>
       </div>
