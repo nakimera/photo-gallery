@@ -1,4 +1,5 @@
-import { useMemo, useContext } from "react";
+import { useMemo, useContext, useEffect } from "react";
+import app from "./lib/firebase.config";
 import Layout from "./components/Layout";
 import Card from "../src/components/Card";
 import { Context } from "./context";
@@ -9,6 +10,10 @@ function App() {
   const count = useMemo(() => {
     return state.items.length;
   }, [state.items]);
+
+  useEffect(() => {
+    app()
+  }, [])
 
   return (
     <Layout>
