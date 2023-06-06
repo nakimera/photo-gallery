@@ -1,21 +1,33 @@
-import { useMemo } from "react";
+import { useMemo, useContext } from "react";
 import Preview from "./Preview";
+import { Context } from "../context";
 
-function UploadForm({ inputs, isVisible, onChange, onSubmit }) {
+function UploadForm({toggle}) {
+  const { state, dispatch } = useContext(Context);
+
+  const handleOnChange = (e) =>
+    dispatch({ type: "setInputs", payload: { value: e } });
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: "setItem" });
+    toggle(false);
+  };
+
   const isDisabled = useMemo(() => {
-    return !!Object.values(inputs).some((input) => !input);
-  }, [inputs]);
+    return !!Object.values(state.inputs).some((input) => !input);
+  }, [state.inputs]);
 
   return (
-    isVisible && (
+    state.isCollapsed && (
       <>
         <p className="display-6 text-center mb-3">Upload Stock Image</p>
         <div className="mb-5 d-flex align-items-center justify-content-center">
-          <Preview {...inputs} />
+          <Preview />
           <form
             className="mb-2"
             style={{ textAlign: "left" }}
-            onSubmit={onSubmit}
+            onSubmit={handleOnSubmit}
           >
             <div className="mb-3">
               <input
@@ -24,7 +36,7 @@ function UploadForm({ inputs, isVisible, onChange, onSubmit }) {
                 name="title"
                 placeholder="title"
                 aria-describedby="text"
-                onChange={onChange}
+                onChange={handleOnChange}
               />
             </div>
             <div className="mb-3">
@@ -32,10 +44,14 @@ function UploadForm({ inputs, isVisible, onChange, onSubmit }) {
                 type="file"
                 className="form-control"
                 name="file"
-                onChange={onChange}
+                onChange={handleOnChange}
               />
             </div>
-            <button type="submit" className="btn btn-success float-end" disabled={isDisabled}>
+            <button
+              type="submit"
+              className="btn btn-success float-end"
+              disabled={isDisabled}
+            >
               Save changes
             </button>
           </form>
