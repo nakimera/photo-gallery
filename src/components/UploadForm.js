@@ -1,6 +1,9 @@
 import { useMemo, useContext } from "react";
 import Preview from "./Preview";
 import { Context } from "../context";
+import Firestore from "../handlers/firestore";
+
+const {writeDoc} = Firestore;
 
 function UploadForm({toggle}) {
   const { state, dispatch } = useContext(Context);
@@ -10,6 +13,7 @@ function UploadForm({toggle}) {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    writeDoc(state.inputs, "stocks").then(console.log)
     dispatch({ type: "setItem" });
     toggle(false);
   };
