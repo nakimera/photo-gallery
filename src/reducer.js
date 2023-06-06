@@ -1,3 +1,6 @@
+import Firestore from "./handlers/firestore";
+// const {readDocs} = Firestore;
+
 const handleOnChange = (state, e) => {
   if (e.target.name === "file") {
     return {
@@ -12,6 +15,11 @@ const handleOnChange = (state, e) => {
 
 function reducer(state, action){
   switch(action.type){
+    case 'setItems':
+      return {
+        ...state,
+        items: action.payload.items
+      }
     case 'setItem':
       return {
         ...state,

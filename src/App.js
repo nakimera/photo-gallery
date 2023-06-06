@@ -1,14 +1,18 @@
-import { useMemo, useContext } from "react";
+import { useMemo, useContext, useEffect } from "react";
 import Layout from "./components/Layout";
 import Card from "../src/components/Card";
 import { Context } from "./context";
 
 function App() {
-  const { state } = useContext(Context);
+  const { state, read } = useContext(Context);
 
   const count = useMemo(() => {
     return state.items.length;
   }, [state.items]);
+
+  useEffect(() => {
+    read().then(console.log);
+  }, [read]);
 
   return (
     <Layout>

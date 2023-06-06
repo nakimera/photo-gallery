@@ -1,7 +1,31 @@
-import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  serverTimestamp,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../lib/firebase.config";
 
 const Firestore = {
+  readDocs: (...args) => {
+    let docs = [];
+    const ref = collection(db, "stocks");
+
+    return new Promise(async (resolve) => {
+      try {
+        const snapShots = await getDocs(ref);
+        snapShots.forEach((doc) => {
+          const d = { ...doc.data() };
+          docs.push(d);
+        });
+        resolve(docs);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  },
+
   writeDoc: (...args) => {
     const [inputs, collection_name] = args;
     return new Promise(async (resolve) => {
@@ -14,7 +38,9 @@ const Firestore = {
           createdAt: serverTimestamp(),
         });
         resolve("new doc successfully inserted");
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     });
   },
 };
