@@ -1,27 +1,50 @@
-import NavBar from "../src/components/NavBar";
+import { useReducer, useMemo } from "react";
+import Layout from "./components/Layout";
 import Card from "../src/components/Card";
+import reducer from "./reducer";
 
-const photos = [
-  "https://picsum.photos/id/1001/200/200",
-  "https://picsum.photos/id/1002/200/200",
-  "https://picsum.photos/id/1003/200/200",
-  "https://picsum.photos/id/1004/200/200",
-  "https://picsum.photos/id/1005/200/200",
-  "https://picsum.photos/id/1006/200/200",
-];
+const initialState = {
+  items: [],
+  inputs: { title: null, file: null, path: null },
+  isCollapsed: false,
+};
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const toggle = () =>
+    dispatch({ type: "collapse", payload: !state.isCollapsed });
+
+  const handleOnChange = (e) =>
+    dispatch({ type: "setInputs", payload: { value: e } });
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: "setItem" });
+    toggle(false);
+  };
+
+  const count = useMemo(() => {
+    return state.items.length;
+  }, [state.items]);
+
   return (
     <>
-      <NavBar />
-      <div class="container text-center mb-5">
-        <h1 className="mb-4">Gallery</h1>
-        <div className="row">
-          {photos.map((photo) => (
-            <Card src={photo} />
+      <Layout
+        state={state}
+        onChange={handleOnChange}
+        onSubmit={handleOnSubmit}
+        toggle={toggle}
+      >
+        <h1 className="mb-2 mt-4">Gallery</h1>
+        <p>
+          You have {count} image{count === 1 ? "" : "s"}
+        </p>
+        <div className="row mt-5">
+          {state.items.map((item, index) => (
+            <Card key={index} {...item} />
           ))}
         </div>
-      </div>
+      </Layout>
     </>
   );
 }

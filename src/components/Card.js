@@ -1,11 +1,11 @@
-function Card({src}) {
+function Card({path, title}) {
   return (
     <div className="col mb-5">
-      <div class="card" style={{ width: "18rem" }}>
+      <div className="card" style={{ width: "18rem" }}>
         <img
-          src={src}
-          class="card-img-top"
-          alt={src}
+          src={path}
+          className="card-img-top"
+          alt={title}
         />
       </div>
     </div>
